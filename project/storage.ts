@@ -13,7 +13,7 @@ database.exec(`
 `);
 
 export function deleteNote(id: number): boolean {
-  const statement = database.prepare(`
+  const statement = database.query(`
         DELETE FROM notes
         WHERE id = ?
         `);
@@ -26,50 +26,50 @@ export function deleteNote(id: number): boolean {
 
 export function searchNotes(searchText: string) {
   const query = `%${searchText}%`;
-  const statement = database.prepare(`
+  const statement = database.query<Note, [string, string]>(`
         SELECT * FROM notes
         WHERE title LIKE ? OR body LIKE ?
         `);
-  return statement.all(query, query) as Note[];
+  return statement.all(query, query);
 }
 
 export function addNote(title: string, body: string) {
-  const insertNoteStatement = database.prepare(`
+  const insertNoteStatement = database.query(`
         INSERT INTO notes (title, body, createdAt)
         VALUES (?, ?, ?)
         `);
   insertNoteStatement.run(title, body, new Date().toLocaleString());
 }
 
-export function getAllNotes() {
-  const statement = database.prepare(`
+export function getAllNotes(): Note[] {
+  const statement = database.query<Note, []>(`
         SELECT * FROM notes
         `);
-  return statement.all() as Note[];
+  return statement.all();
 }
 
 export function editNote(
-  id: number | string,
+  id: number,
   newTitle: string,
   newBody: string,
 ): boolean {
-  const statement = database.prepare(`
+  const statement = database.query(`
         UPDATE notes
         SET title = ?,
             body = ?
         WHERE id = ?
         `);
-  const editResult = statement.run(newTitle, newBody, Number(id));
+  const editResult = statement.run(newTitle, newBody, id);
   if (editResult.changes === 0) {
     return false;
   }
   return true;
 }
 
-export function getNoteById(searchId: number): Note | undefined {
-  const statement = database.prepare(`
+export function getNoteById(searchId: number): Note | null {
+  const statement = database.query<Note, [number]>(`
         SELECT * FROM notes
         WHERE id = ?
         `);
-  return statement.get(searchId) as Note | undefined;
+  return statement.get(searchId);
 }

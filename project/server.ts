@@ -8,6 +8,7 @@ import {
 } from './storage.ts';
 import type { NoteBody } from './types/note.ts';
 import { parseId } from './utils.ts';
+import { isNoteBody } from './validators/note.ts';
 
 const server = Bun.serve({
   routes: {
@@ -30,13 +31,13 @@ const server = Bun.serve({
         }
       },
       POST: async (req) => {
-        let body: NoteBody;
+        let body: unknown;
         try {
-          body = (await req.json()) as NoteBody;
+          body = await req.json();
+          if (!isNoteBody(body)) {
+            return Response.json({ error: 'Bad Request' }, { status: 400 });
+          }
         } catch {
-          return Response.json({ error: 'Bad Request' }, { status: 400 });
-        }
-        if (!body.title || !body.body) {
           return Response.json({ error: 'Bad Request' }, { status: 400 });
         }
         try {
@@ -74,13 +75,13 @@ const server = Bun.serve({
         }
       },
       PUT: async (req) => {
-        let body: NoteBody;
+        let body: unknown;
         try {
-          body = (await req.json()) as NoteBody;
+          body = await req.json();
+          if (!isNoteBody(body)) {
+            return Response.json({ error: 'Bad Request' }, { status: 400 });
+          }
         } catch {
-          return Response.json({ error: 'Bad Request' }, { status: 400 });
-        }
-        if (!body.title || !body.body) {
           return Response.json({ error: 'Bad Request' }, { status: 400 });
         }
         try {
@@ -104,16 +105,23 @@ const server = Bun.serve({
         }
       },
       GET: (req) => {
-        const id = parseId(req.params.id);
-        if (id === null) {
-          return Response.json({ error: 'Invalid ID' }, { status: 400 });
-        }
-        const note = getNoteById(id);
+        try {
+          const id = parseId(req.params.id);
+          if (id === null) {
+            return Response.json({ error: 'Invalid ID' }, { status: 400 });
+          }
+          const note = getNoteById(id);
 
-        if (!note) {
-          return Response.json({ error: 'Note not found' }, { status: 404 });
+          if (!note) {
+            return Response.json({ error: 'Note not found' }, { status: 404 });
+          }
+          return Response.json(note);
+        } catch {
+          return Response.json(
+            { error: 'Internal Server Error' },
+            { status: 500 },
+          );
         }
-        return Response.json(note);
       },
     },
   },

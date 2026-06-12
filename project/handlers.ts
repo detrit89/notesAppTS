@@ -57,8 +57,8 @@ export function handleEditNote(id: number, title: string, body: string) {
   console.log('Note edited');
 }
 
-export function handleGetNoteById(search: number): void {
-  const foundNote = getNoteById(search);
+export function handleGetNoteById(searchId: number): void {
+  const foundNote = getNoteById(searchId);
   if (!foundNote) {
     console.log('Note not found');
     return;
