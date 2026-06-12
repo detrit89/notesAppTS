@@ -1,276 +1,200 @@
-# Notes CLI
+# Notes CLI + REST API
 
-A simple command-line notes application built with **Bun**, **TypeScript**, and **SQLite**.
+Simple note management application built with TypeScript and Bun. The project provides both a Command Line Interface (CLI) and a REST API for managing notes.
 
-This project was created to practice backend fundamentals, including TypeScript, SQLite integration, project structure, input validation, and CRUD operations.
+Простое приложение для управления заметками, написанное на TypeScript и Bun. Проект предоставляет как интерфейс командной строки (CLI), так и REST API для работы с заметками.
+
+---
 
 ## Features
 
-- Add new notes
-- List all notes
-- Search notes by text
-- Get a note by ID
+### English
+
+- Create notes
+- View all notes
+- Search notes by title or content
 - Edit existing notes
 - Delete notes
-- SQLite persistence
-- Input validation and error handling
+- Access notes through CLI or REST API
+- Persistent SQLite storage
 
-## Tech Stack
+### Русский
 
-- **Bun** – JavaScript runtime
-- **TypeScript** – Static typing
-- **SQLite** – Embedded database (`bun:sqlite`)
+- Создание заметок
+- Просмотр всех заметок
+- Поиск заметок по заголовку и содержимому
+- Редактирование существующих заметок
+- Удаление заметок
+- Работа через CLI или REST API
+- Постоянное хранение данных в SQLite
 
-## Project Structure
+---
 
-```txt
-project/
-├── types/
-│   └── note.ts        # Note type definition
-├── commands.ts        # CLI command handling
-├── handlers.ts        # Business logic and output formatting
-├── index.ts           # Application entry point
-└── storage.ts         # Database operations
+## Technologies Used
 
-package.json
-tsconfig.json
-README.md
-.gitignore
-bun.lock
-notes.db
-```
+### English
 
-## Installation
+- Bun
+- TypeScript
+- SQLite (`bun:sqlite`)
+- REST API
+- CLI Applications
+- ESLint
+- Prettier
 
-Clone the repository:
+### Русский
+
+- Bun
+- TypeScript
+- SQLite (`bun:sqlite`)
+- REST API
+- Консольные приложения (CLI)
+- ESLint
+- Prettier
+
+---
+
+## Installation / Установка
 
 ```bash
 git clone <repository-url>
-cd notes-cli
-```
 
-Install dependencies:
+cd <repository-name>
 
-```bash
 bun install
-```
-
-## Running the Application
-
-All commands are executed using:
-
-```bash
-bun project/index.ts <command>
-```
-
-## Available Commands
-
-### Add a note
-
-```bash
-bun project/index.ts add "<title>" "<body>"
-```
-
-Example:
-
-```bash
-bun project/index.ts add "Buy groceries" "Milk, eggs and bread"
-```
-
-Output:
-
-```txt
-New note added
 ```
 
 ---
 
-### List all notes
+## Running CLI / Запуск CLI
+
+### Add a note / Добавить заметку
+
+```bash
+bun project/index.ts add "Shopping" "Buy milk"
+```
+
+### List notes / Показать все заметки
 
 ```bash
 bun project/index.ts list
 ```
 
-Example output:
-
-```txt
-1 - Buy groceries - Milk, eggs and bread - 6/12/2026, 2:34:28 PM
-2 - Learn TypeScript - Practice generics - 6/12/2026, 2:35:12 PM
-```
-
----
-
-### Search notes
+### Search notes / Поиск заметок
 
 ```bash
-bun project/index.ts search "<text>"
+bun project/index.ts search "milk"
 ```
 
-Example:
-
-```bash
-bun project/index.ts search "groceries"
-```
-
-Output:
-
-```txt
-1 - Buy groceries - Milk, eggs and bread - 6/12/2026, 2:34:28 PM
-```
-
-If no notes are found:
-
-```txt
-No notes found
-```
-
----
-
-### Get a note by ID
-
-```bash
-bun project/index.ts get <id>
-```
-
-Example:
+### Get note by ID / Получить заметку по ID
 
 ```bash
 bun project/index.ts get 1
 ```
 
-Output:
-
-```txt
-1 - Buy groceries - Milk, eggs and bread - 6/12/2026, 2:34:28 PM
-```
-
-If the note does not exist:
-
-```txt
-Note not found
-```
-
----
-
-### Edit a note
+### Edit note / Изменить заметку
 
 ```bash
-bun project/index.ts edit <id> "<title>" "<body>"
+bun project/index.ts edit 1 "New title" "New body"
 ```
 
-Example:
-
-```bash
-bun project/index.ts edit 1 "Buy groceries" "Milk, eggs, bread and juice"
-```
-
-Output:
-
-```txt
-Note edited
-```
-
-If the note does not exist:
-
-```txt
-Note not found
-```
-
----
-
-### Delete a note
-
-```bash
-bun project/index.ts delete <id>
-```
-
-Example:
+### Delete note / Удалить заметку
 
 ```bash
 bun project/index.ts delete 1
 ```
 
-Output:
-
-```txt
-Note deleted
-```
-
-If the note does not exist:
-
-```txt
-Note not found
-```
-
----
-
-### Show help
+### Show help / Показать справку
 
 ```bash
 bun project/index.ts help
 ```
 
-Output:
+---
 
-```txt
-Available commands:
+## Running REST API / Запуск REST API
 
-bun project/index.ts add <title> <body>       -> add new note
-bun project/index.ts list                     -> show all notes
-bun project/index.ts search <text>            -> search notes
-bun project/index.ts delete <id>              -> delete note
-bun project/index.ts help                     -> show help
-bun project/index.ts edit <id> <title> <body> -> edit note
-bun project/index.ts get <id>                 -> show note by id
-```
+Start the server:
 
-## Database
-
-The SQLite database file (`notes.db`) is created automatically when the application starts.
-
-No additional setup is required.
-
-## Input Validation
-
-The application validates:
-
-- Missing command arguments
-- Invalid note IDs
-- Negative IDs
-- Zero IDs
-- Non-integer IDs
-- Operations on non-existent notes
-
-Examples:
+Запустите сервер:
 
 ```bash
-bun project/index.ts delete abc
+bun project/server.ts
 ```
 
-Output:
+The server will be available at:
 
-```txt
-Invalid note id
+Сервер будет доступен по адресу:
+
+```text
+http://localhost:3000
 ```
 
-```bash
-bun project/index.ts get 999
+---
+
+## API Endpoints / API Эндпоинты
+
+### Get all notes / Получить все заметки
+
+```http
+GET /notes
 ```
 
-Output:
+### Search notes / Поиск заметок
 
-```txt
-Note not found
+```http
+GET /notes?search=text
 ```
 
-## Learning Goals
+### Get note by ID / Получить заметку по ID
 
-This project was built to practice:
+```http
+GET /notes/:id
+```
 
-- TypeScript fundamentals
-- CLI application development
-- SQLite integration with Bun
-- CRUD operations
-- Input validation
-- Error handling
-- Project organization and separation of concerns
+### Create note / Создать заметку
+
+```http
+POST /notes
+```
+
+Body:
+
+```json
+{
+  "title": "Learn Bun",
+  "body": "Finish REST API project"
+}
+```
+
+### Update note / Обновить заметку
+
+```http
+PUT /notes/:id
+```
+
+### Delete note / Удалить заметку
+
+```http
+DELETE /notes/:id
+```
+
+---
+
+## Project Structure / Структура проекта
+
+```text
+project/
+├── commands.ts      # CLI commands
+├── handlers.ts      # CLI handlers
+├── index.ts         # CLI entry point
+├── server.ts        # REST API server
+├── storage.ts       # Database operations
+├── utils.ts         # Utility functions
+└── types/
+    └── note.ts      # Type definitions
+
+notes.db             # SQLite database
+```
+
+---
