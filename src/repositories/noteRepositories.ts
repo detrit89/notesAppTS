@@ -1,19 +1,9 @@
-import { Database } from 'bun:sqlite';
-import type { Note } from './types/note.ts';
-
-const database = new Database('notes.db');
-
-database.exec(`
-    CREATE TABLE IF NOT EXISTS notes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT TEXT NOT NULL,
-    body TEXT TEXT NOT NULL,
-    createdAt TEXT NOT NULL
-    )
-`);
+import { getDb } from '../db/db.ts';
+import type { Note } from '../types/note.ts';
 
 export function deleteNote(id: number): boolean {
-  const statement = database.query(`
+  const db = getDb();
+  const statement = db.query(`
         DELETE FROM notes
         WHERE id = ?
         `);
@@ -25,8 +15,9 @@ export function deleteNote(id: number): boolean {
 }
 
 export function searchNotes(searchText: string) {
+  const db = getDb();
   const query = `%${searchText}%`;
-  const statement = database.query<Note, [string, string]>(`
+  const statement = db.query<Note, [string, string]>(`
         SELECT * FROM notes
         WHERE title LIKE ? OR body LIKE ?
         `);
@@ -34,7 +25,8 @@ export function searchNotes(searchText: string) {
 }
 
 export function addNote(title: string, body: string) {
-  const insertNoteStatement = database.query(`
+  const db = getDb();
+  const insertNoteStatement = db.query(`
         INSERT INTO notes (title, body, createdAt)
         VALUES (?, ?, ?)
         `);
@@ -42,7 +34,8 @@ export function addNote(title: string, body: string) {
 }
 
 export function getAllNotes(): Note[] {
-  const statement = database.query<Note, []>(`
+  const db = getDb();
+  const statement = db.query<Note, []>(`
         SELECT * FROM notes
         `);
   return statement.all();
@@ -53,7 +46,8 @@ export function editNote(
   newTitle: string,
   newBody: string,
 ): boolean {
-  const statement = database.query(`
+  const db = getDb();
+  const statement = db.query(`
         UPDATE notes
         SET title = ?,
             body = ?
@@ -67,7 +61,8 @@ export function editNote(
 }
 
 export function getNoteById(searchId: number): Note | null {
-  const statement = database.query<Note, [number]>(`
+  const db = getDb();
+  const statement = db.query<Note, [number]>(`
         SELECT * FROM notes
         WHERE id = ?
         `);

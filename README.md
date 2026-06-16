@@ -1,200 +1,114 @@
-# Notes CLI + REST API
+# Notes API
 
-Simple note management application built with TypeScript and Bun. The project provides both a Command Line Interface (CLI) and a REST API for managing notes.
+A simple REST API for managing notes built with **Bun**, **TypeScript**, and **SQLite**.
 
-Простое приложение для управления заметками, написанное на TypeScript и Bun. Проект предоставляет как интерфейс командной строки (CLI), так и REST API для работы с заметками.
-
----
+This project was created to practice backend development fundamentals, including API design, project structure, database integration, and TypeScript type safety.
 
 ## Features
 
-### English
-
 - Create notes
-- View all notes
-- Search notes by title or content
-- Edit existing notes
+- Get all notes
+- Search notes by text
+- Get a note by ID
+- Update notes
 - Delete notes
-- Access notes through CLI or REST API
-- Persistent SQLite storage
+- SQLite database integration
+- Input validation using TypeScript type guards
+- Graceful database shutdown
 
-### Русский
-
-- Создание заметок
-- Просмотр всех заметок
-- Поиск заметок по заголовку и содержимому
-- Редактирование существующих заметок
-- Удаление заметок
-- Работа через CLI или REST API
-- Постоянное хранение данных в SQLite
-
----
-
-## Technologies Used
-
-### English
+## Tech Stack
 
 - Bun
 - TypeScript
 - SQLite (`bun:sqlite`)
-- REST API
-- CLI Applications
-- ESLint
-- Prettier
 
-### Русский
+## Project Structure
 
-- Bun
-- TypeScript
-- SQLite (`bun:sqlite`)
-- REST API
-- Консольные приложения (CLI)
-- ESLint
-- Prettier
+```text
+src/
+├── server.ts
+├── db/
+│   └── db.ts
+├── routes/
+│   └── noteRoutes.ts
+├── controllers/
+│   └── noteController.ts
+├── repositories/
+│   └── noteRepository.ts
+├── validators/
+│   └── note.ts
+├── utils/
+│   └── parseId.ts
+└── types/
+    └── note.ts
+```
 
----
+## API Endpoints
 
-## Installation / Установка
+| Method | Endpoint             | Description    |
+| ------ | -------------------- | -------------- |
+| GET    | `/notes`             | Get all notes  |
+| GET    | `/notes?search=text` | Search notes   |
+| GET    | `/notes/:id`         | Get note by ID |
+| POST   | `/notes`             | Create a note  |
+| PUT    | `/notes/:id`         | Update a note  |
+| DELETE | `/notes/:id`         | Delete a note  |
+
+## Getting Started
+
+### Install dependencies
 
 ```bash
-git clone <repository-url>
-
-cd <repository-name>
-
 bun install
 ```
 
----
-
-## Running CLI / Запуск CLI
-
-### Add a note / Добавить заметку
+### Run the development server
 
 ```bash
-bun project/index.ts add "Shopping" "Buy milk"
+bun run dev
 ```
 
-### List notes / Показать все заметки
+### Run type checking
 
 ```bash
-bun project/index.ts list
-```
-
-### Search notes / Поиск заметок
-
-```bash
-bun project/index.ts search "milk"
-```
-
-### Get note by ID / Получить заметку по ID
-
-```bash
-bun project/index.ts get 1
-```
-
-### Edit note / Изменить заметку
-
-```bash
-bun project/index.ts edit 1 "New title" "New body"
-```
-
-### Delete note / Удалить заметку
-
-```bash
-bun project/index.ts delete 1
-```
-
-### Show help / Показать справку
-
-```bash
-bun project/index.ts help
-```
-
----
-
-## Running REST API / Запуск REST API
-
-Start the server:
-
-Запустите сервер:
-
-```bash
-bun project/server.ts
+bun run typecheck
 ```
 
 The server will be available at:
-
-Сервер будет доступен по адресу:
 
 ```text
 http://localhost:3000
 ```
 
----
+## Architecture
 
-## API Endpoints / API Эндпоинты
-
-### Get all notes / Получить все заметки
-
-```http
-GET /notes
-```
-
-### Search notes / Поиск заметок
-
-```http
-GET /notes?search=text
-```
-
-### Get note by ID / Получить заметку по ID
-
-```http
-GET /notes/:id
-```
-
-### Create note / Создать заметку
-
-```http
-POST /notes
-```
-
-Body:
-
-```json
-{
-  "title": "Learn Bun",
-  "body": "Finish REST API project"
-}
-```
-
-### Update note / Обновить заметку
-
-```http
-PUT /notes/:id
-```
-
-### Delete note / Удалить заметку
-
-```http
-DELETE /notes/:id
-```
-
----
-
-## Project Structure / Структура проекта
+The project follows a layered architecture:
 
 ```text
-project/
-├── commands.ts      # CLI commands
-├── handlers.ts      # CLI handlers
-├── index.ts         # CLI entry point
-├── server.ts        # REST API server
-├── storage.ts       # Database operations
-├── utils.ts         # Utility functions
-└── types/
-    └── note.ts      # Type definitions
-
-notes.db             # SQLite database
+Routes
+↓
+Controllers
+↓
+Repositories
+↓
+SQLite Database
 ```
 
----
+### Responsibilities
+
+- **Routes** – map HTTP endpoints to controllers
+- **Controllers** – handle HTTP requests and responses
+- **Repositories** – perform database operations
+- **Database Layer** – manage SQLite initialization and connections
+
+## Learning Goals
+
+This project focuses on:
+
+- REST API design principles
+- TypeScript type safety
+- Separation of concerns
+- SQLite integration
+- Backend project structure
+- Error handling and HTTP status codes
+- Graceful application shutdown
