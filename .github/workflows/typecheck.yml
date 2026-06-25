@@ -1,4 +1,5 @@
 name: Type Check
+
 on:
   push:
     branches:
@@ -15,4 +16,6 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+        working-directory: ./backend
       - run: bun run typecheck
+        working-directory: ./backend
