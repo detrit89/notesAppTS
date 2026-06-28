@@ -30,7 +30,7 @@ export function addNote(title: string, body: string) {
         INSERT INTO notes (title, body, createdAt)
         VALUES (?, ?, ?)
         `);
-  insertNoteStatement.run(title, body, new Date().toLocaleString());
+  insertNoteStatement.run(title, body, new Date().toISOString());
 }
 
 export function getAllNotes(): Note[] {
