@@ -1,22 +1,47 @@
-# Notes API
+# Notes App
 
-A simple REST API for managing notes built with **Bun**, **TypeScript**, and **SQLite**.
+A full-stack note-taking application built with **React**, **Bun**, **TypeScript**, and **SQLite**.
 
-This project was created to practice backend development fundamentals, including API design, project structure, database integration, and TypeScript type safety.
+The project was created to practice modern full-stack development, including REST API design, React application architecture, database integration, and responsive UI development.
+
+## Live Demo
+
+Application: https://notes-axs0f7sa7-detrits-projects.vercel.app/
+
+Backend API: https://notesappts-production.up.railway.app/
 
 ## Features
 
-- Create notes
-- Get all notes
-- Search notes by text
-- Get a note by ID
-- Update notes
+### Frontend
+
+- View all notes
+- Search notes by title or content
+- Create new notes
+- Edit existing notes
 - Delete notes
+- View note details
+- Responsive user interface
+- Client-side routing with React Router
+
+### Backend
+
+- REST API for note management
 - SQLite database integration
-- Input validation using TypeScript type guards
+- Input validation
+- Type-safe backend with TypeScript
 - Graceful database shutdown
 
 ## Tech Stack
+
+### Frontend
+
+- React
+- React Router
+- Tailwind CSS
+- Vite
+- JavaScript / JSX
+
+### Backend
 
 - Bun
 - TypeScript
@@ -25,22 +50,23 @@ This project was created to practice backend development fundamentals, including
 ## Project Structure
 
 ```text
-src/
-├── server.ts
-├── db/
-│   └── db.ts
-├── routes/
-│   └── noteRoutes.ts
-├── controllers/
-│   └── noteController.ts
-├── repositories/
-│   └── noteRepository.ts
-├── validators/
-│   └── note.ts
-├── utils/
-│   └── parseId.ts
-└── types/
-    └── note.ts
+frontend/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── App.jsx
+│   └── main.jsx
+│
+backend/
+├── src/
+│   ├── server.ts
+│   ├── db/
+│   ├── routes/
+│   ├── controllers/
+│   ├── repositories/
+│   ├── validators/
+│   ├── utils/
+│   └── types/
 ```
 
 ## API Endpoints
@@ -56,33 +82,48 @@ src/
 
 ## Getting Started
 
-### Install dependencies
+### Clone the repository
 
 ```bash
-bun install
+git clone <repository-url>
+cd notes-app
 ```
 
-### Run the development server
+## Backend Setup
 
 ```bash
+cd backend
+
+bun install
+
 bun run dev
 ```
 
-### Run type checking
-
-```bash
-bun run typecheck
-```
-
-The server will be available at:
+Backend runs on:
 
 ```text
 http://localhost:3000
 ```
 
+## Frontend Setup
+
+```bash
+cd frontend
+
+bun install
+
+bun run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:5173
+```
+
 ## Architecture
 
-The project follows a layered architecture:
+The backend follows a layered architecture:
 
 ```text
 Routes
@@ -96,19 +137,26 @@ SQLite Database
 
 ### Responsibilities
 
-- **Routes** – map HTTP endpoints to controllers
-- **Controllers** – handle HTTP requests and responses
-- **Repositories** – perform database operations
-- **Database Layer** – manage SQLite initialization and connections
+- **Routes** — map HTTP endpoints to controllers
+- **Controllers** — handle HTTP requests and responses
+- **Repositories** — perform database operations
+- **Database Layer** — manage SQLite initialization and connections
 
 ## Learning Goals
 
 This project focuses on:
 
+- Full-stack application development
 - REST API design principles
+- React component architecture
 - TypeScript type safety
 - Separation of concerns
 - SQLite integration
-- Backend project structure
+- Client-server communication
 - Error handling and HTTP status codes
-- Graceful application shutdown
+- Responsive UI development
+- Modern project structure
+
+## Author
+
+Created by Detrit as a learning project while studying full-stack development.
