@@ -11,6 +11,10 @@ export default function CreateNotePage() {
   }
   async function handleSubmit(event) {
     event.preventDefault();
+    if (!title.trim() || !body.trim()) {
+      alert("Title and content are required");
+      return;
+    }
     const response = await fetch(
       "https://notesappts-production.up.railway.app/notes",
       {
