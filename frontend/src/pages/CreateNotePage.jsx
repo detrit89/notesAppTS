@@ -32,20 +32,22 @@ export default function CreateNotePage() {
 
   return (
     <>
-      <button
-        className="create-note__back-button border rounded-lg py-1 px-8 mx-30 mt-10"
-        onClick={handleBack}
-      >
-        Back to notes
-      </button>
+      <div className="max-w-6xl mx-auto px-4 mt-10">
+        <button
+          className="edit-note__back-button border rounded-lg py-1 px-8 "
+          onClick={handleBack}
+        >
+          Back to notes
+        </button>
+      </div>
       <form
-        className="create-note max-w-6xl mx-auto mt-10 px-6"
+        className="create-note max-w-3xl mx-auto mt-10 px-6"
         onSubmit={handleSubmit}
       >
-        <h2 className="create-note__title text-4xl mx-50 mb-5 font-extrabold">
+        <h2 className="create-note__title text-4xl mb-5 font-extrabold">
           Create new Note
         </h2>
-        <div className="create-note__field mx-50">
+        <div className="create-note__field ">
           <h3 className="create-note__label mb-2 text-lg tracking-widest">
             Title
           </h3>
@@ -58,7 +60,7 @@ export default function CreateNotePage() {
             }}
           />
         </div>
-        <div className="create-note__field mx-50">
+        <div className="create-note__field">
           <h3 className="create-note__label mt-8 mb-2 text-lg tracking-widest">
             Content
           </h3>
@@ -72,7 +74,7 @@ export default function CreateNotePage() {
           />
         </div>
         <button
-          className="create-note__button border rounded-lg py-2 px-6 text-white bg-black mt-10 mx-50"
+          className="create-note__button border rounded-lg py-2 px-6 text-white bg-black mt-10"
           type="submit"
         >
           Save Note

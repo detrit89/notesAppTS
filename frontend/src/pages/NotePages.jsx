@@ -48,7 +48,7 @@ export default function NotePage() {
   }
   return (
     <div className="note-page ">
-      <div className="note-page__actions flex justify-between mx-30 mt-10">
+      <div className="note-page__actions max-w-7xl mx-auto px-4 mt-10 flex  sm:flex-row justify-between gap-4">
         <button
           className="note-page__back-button border rounded-lg py-1 px-8 "
           onClick={handleBack}
@@ -70,7 +70,7 @@ export default function NotePage() {
           </button>
         </div>
       </div>
-      <div className="note-page__content max-w-6xl mx-auto mt-8">
+      <div className="note-page__content max-w-6xl mx-auto mt-8 px-6">
         <h2 className="note-page__title text-3xl font-extrabold mb-5">
           {note.title}
         </h2>

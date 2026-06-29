@@ -45,21 +45,22 @@ export default function EditNotePage() {
 
   return (
     <>
-      <button
-        className="edit-note__back-button border rounded-lg py-1 px-8 mx-30 mt-10"
-        onClick={handleBack}
-      >
-        Back to notes
-      </button>
+      <div className="max-w-7xl mx-auto px-4 mt-10">
+        <button
+          className="edit-note__back-button border rounded-lg py-1 px-8 "
+          onClick={handleBack}
+        >
+          Back to notes
+        </button>
+      </div>
       <form
-        className="edit-note max-w-6xl mx-auto mt-10 "
+        className="edit-note max-w-6xl mx-auto mt-10 px-6"
         onSubmit={handleSubmit}
       >
-        <div className="mx-55">
+        <div className="">
           <h2 className="edit-note__title text-4xl mb-5 font-extrabold">
             Edit Note
           </h2>
-
           <div className="edit-note__field">
             <h3 className="edit-note__label text-lg mb-2 tracking-widest">
               Title

@@ -1,25 +1,54 @@
 import { Link } from "react-router-dom";
+import { Trash2, Pencil } from "lucide-react";
 
-export default function NoteCard({ title, body, createdAt, id }) {
+export default function NoteCard({ title, body, createdAt, id, onDelete }) {
+  async function handleDelete() {
+    const response = await fetch(
+      `https://notesappts-production.up.railway.app/notes/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (response.ok) {
+      onDelete(id);
+      navigate("/");
+    } else {
+      alert("Failed to delete note");
+    }
+  }
   return (
-    <li className="border rounded-lg px-5 py-4 mb-4">
-      <Link to={`/notes/${id}`}>
-        <div className="flex justify-between items-center">
-          <div>
-            <h2 className="text-3xl font-extrabold">{title}</h2>
-            <p className="text-lg">{body}</p>
-          </div>
-          <div>
-            <p>
-              {new Date(createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </p>
+    <div>
+      <li className="border rounded-lg px-5 py-4 mb-4 flex flex-col sm:flex-row gap-4">
+        <Link to={`/notes/${id}`} className="flex-1 min-w-0">
+          <h2 className="text-3xl font-extrabold break-all">{title}</h2>
+          <p className="text-lg ">{body}</p>
+        </Link>
+        <div className="flex flex-col justify-between self-stretch mt-2">
+          <p>
+            {new Date(createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </p>
+          <div className=" flex gap-3 ml-auto">
+            <button
+              className="note-page__delete-button border rounded border-red-200 p-3 bg-red-100 text-red-500  "
+              onClick={handleDelete}
+            >
+              <Trash2 size={18} />
+            </button>
+            <Link
+              className="note-page__edit-link border rounded p-3 border-gray-500"
+              to={`/notes/${id}/edit`}
+            >
+              <Pencil size={18} />
+            </Link>
           </div>
         </div>
-      </Link>
-    </li>
+      </li>
+    </div>
   );
 }

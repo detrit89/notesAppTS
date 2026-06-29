@@ -31,6 +31,10 @@ export default function NotesList({ search }) {
             body={note.body}
             createdAt={note.createdAt}
             id={note.id}
+            ё
+            onDelete={(id) =>
+              setNotes((prev) => prev.filter((note) => note.id !== id))
+            }
           />
         ))}
       </ul>

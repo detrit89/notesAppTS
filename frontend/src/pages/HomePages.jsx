@@ -7,14 +7,13 @@ export default function HomePage() {
   const [search, setSearch] = useState("");
   return (
     <div>
-      <div className="mt-8 ml-15">
-        <h1 className="tracking-widest">NOTES</h1>
+      <div className="max-w-8xl mx-auto px-4 mt-8">
+        <h1 className="tracking-widest text-2xl">NOTES</h1>
       </div>
-      <div className="home-page max-w-5xl mx-auto">
-        <Header />
-        <SearchBar search={search} setSearch={setSearch} />
-        <NotesList search={search} />
-      </div>
+
+      <Header />
+      <SearchBar search={search} setSearch={setSearch} />
+      <NotesList search={search} />
     </div>
   );
 }
