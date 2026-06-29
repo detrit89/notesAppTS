@@ -8,9 +8,8 @@ export default function HomePage() {
   return (
     <div>
       <div className="max-w-8xl mx-auto px-4 mt-8">
-        <h1 className="tracking-widest text-2xl">NOTES</h1>
+        <h1 className="tracking-widest text-xl sm:text-2xl">NOTES</h1>
       </div>
-
       <Header />
       <SearchBar search={search} setSearch={setSearch} />
       <NotesList search={search} />
