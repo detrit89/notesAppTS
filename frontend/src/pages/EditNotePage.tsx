@@ -28,6 +28,10 @@ export default function EditNotePage() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!title.trim() || !body.trim()) {
+      alert("Title and content are required");
+      return;
+    }
     const response = await fetch(
       `https://notesappts-production.up.railway.app/notes/${id}`,
       {
