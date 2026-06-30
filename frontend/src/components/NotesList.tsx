@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
-import NoteCard from "./NoteCard.jsx";
+import NoteCard from "./NoteCard.js";
 
-export default function NotesList({ search }) {
-  const [notes, setNotes] = useState([]);
+type NotesListProps = {
+  search: string;
+};
+
+type Note = {
+  id: number;
+  title: string;
+  body: string;
+  createdAt: string;
+};
+
+export default function NotesList({ search }: NotesListProps) {
+  const [notes, setNotes] = useState<Note[]>([]);
   async function fetchNotes() {
     let responses;
     search === ""
@@ -23,7 +34,7 @@ export default function NotesList({ search }) {
 
   return (
     <div className="w-4xl m-auto">
-      <ul className=" ">
+      <ul>
         {notes.map((note) => (
           <NoteCard
             key={note.id}
@@ -31,7 +42,6 @@ export default function NotesList({ search }) {
             body={note.body}
             createdAt={note.createdAt}
             id={note.id}
-            ё
             onDelete={(id) =>
               setNotes((prev) => prev.filter((note) => note.id !== id))
             }

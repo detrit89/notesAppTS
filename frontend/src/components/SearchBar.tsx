@@ -1,4 +1,9 @@
-export default function SearchBar({ search, setSearch }) {
+type SearchBarProps = {
+  search: string;
+  setSearch: (value: string) => void;
+};
+
+export default function SearchBar({ search, setSearch }: SearchBarProps) {
   return (
     <div className="my-10 max-w-4xl m-auto">
       <input

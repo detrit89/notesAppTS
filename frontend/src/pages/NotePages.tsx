@@ -2,8 +2,14 @@ import { useState, useEffect } from "react";
 import { Trash2, Pencil } from "lucide-react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
+type Note = {
+  title: string;
+  body: string;
+  createdAt: string;
+};
+
 export default function NotePage() {
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState<Note | null>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 

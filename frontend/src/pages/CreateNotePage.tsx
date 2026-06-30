@@ -9,7 +9,7 @@ export default function CreateNotePage() {
   function handleBack() {
     navigate("/");
   }
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!title.trim() || !body.trim()) {
       alert("Title and content are required");

@@ -1,7 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Pencil } from "lucide-react";
 
-export default function NoteCard({ title, body, createdAt, id, onDelete }) {
+type NoteCardProps = {
+  title: string;
+  body: string;
+  createdAt: string;
+  id: number;
+  onDelete: (id: number) => void;
+};
+
+export default function NoteCard({
+  title,
+  body,
+  createdAt,
+  id,
+  onDelete,
+}: NoteCardProps) {
+  const navigate = useNavigate();
   async function handleDelete() {
     const response = await fetch(
       `https://notesappts-production.up.railway.app/notes/${id}`,
@@ -33,7 +48,7 @@ export default function NoteCard({ title, body, createdAt, id, onDelete }) {
               minute: "2-digit",
             })}
           </p>
-          <div className=" flex gap-3 ml-auto">
+          <div className="flex gap-3 ml-auto">
             <button
               className="note-page__delete-button border rounded border-red-200 p-3 bg-red-100 text-red-500  "
               onClick={handleDelete}

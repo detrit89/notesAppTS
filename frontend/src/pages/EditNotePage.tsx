@@ -26,7 +26,7 @@ export default function EditNotePage() {
     fetchNote();
   }, []);
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const response = await fetch(
       `https://notesappts-production.up.railway.app/notes/${id}`,
@@ -57,7 +57,7 @@ export default function EditNotePage() {
         className="edit-note max-w-6xl mx-auto mt-10 px-6"
         onSubmit={handleSubmit}
       >
-        <div className="">
+        <div>
           <h2 className="edit-note__title text-4xl mb-5 font-extrabold">
             Edit Note
           </h2>
