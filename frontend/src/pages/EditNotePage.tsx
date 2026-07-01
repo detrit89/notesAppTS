@@ -1,33 +1,35 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getNoteById, updateNote } from "../api/notes";
+import { updateNote } from "../api/notes";
+import useNote from "../hooks/useNote";
 
 export default function EditNotePage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-
+  if (id === undefined) {
+    alert("Invalid note id");
+    return;
+  }
+  const noteId = Number(id);
   function handleBack() {
     navigate("/");
   }
-  async function fetchNote() {
-    if (id === undefined) {
-      alert("Invalid note id");
-      return;
-    }
-    try {
-      const data = await getNoteById(Number(id));
-      setTitle(data.title);
-      setBody(data.body);
-    } catch {
-      alert("Failed to load note");
-    }
+  if (id === undefined) {
+    alert("Invalid note id");
+    return;
   }
 
+  const { note } = useNote(noteId);
+
   useEffect(() => {
-    fetchNote();
-  }, []);
+    if (!note) {
+      return;
+    }
+    setTitle(note.title);
+    setBody(note.body);
+  }, [note]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -39,10 +41,10 @@ export default function EditNotePage() {
       alert("Invalid note id");
       return;
     }
-    const nodeId = Number(id);
+
     try {
-      await updateNote(nodeId, { title, body });
-      navigate(`/notes/${nodeId}`);
+      await updateNote(noteId, { title, body });
+      navigate(`/notes/${noteId}`);
     } catch {
       alert("Failed to edit note");
     }

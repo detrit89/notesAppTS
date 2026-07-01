@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
 import { Trash2, Pencil } from "lucide-react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { deleteNote, getNoteById } from "../api/notes";
+import { useNavigate, Link, useParams } from "react-router-dom";
+import { deleteNote } from "../api/notes";
+import useNote from "../hooks/useNote";
 
 type Note = {
   title: string;
@@ -10,26 +10,13 @@ type Note = {
 };
 
 export default function NotePage() {
-  const [note, setNote] = useState<Note | null>(null);
-  const { id } = useParams();
   const navigate = useNavigate();
-
-  async function fetchNote() {
-    if (id === undefined) {
-      alert("Invalid note id");
-      return;
-    }
-    try {
-      const data = await getNoteById(Number(id));
-      setNote(data);
-    } catch {
-      alert("Failed to load note");
-    }
+  const { id } = useParams();
+  if (id === undefined) {
+    alert("Invalid note id");
+    return;
   }
-
-  useEffect(() => {
-    fetchNote();
-  }, []);
+  const { note } = useNote(Number(id));
 
   function handleBack() {
     navigate("/");
