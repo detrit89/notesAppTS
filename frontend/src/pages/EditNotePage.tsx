@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getNoteById, updateNote } from "../api/notes";
 
 export default function EditNotePage() {
   const [title, setTitle] = useState("");
@@ -11,15 +12,17 @@ export default function EditNotePage() {
     navigate("/");
   }
   async function fetchNote() {
-    const response = await fetch(
-      `https://notesappts-production.up.railway.app/notes/${id}`,
-      {
-        method: "GET",
-      },
-    );
-    const data = await response.json();
-    setTitle(data.title);
-    setBody(data.body);
+    if (id === undefined) {
+      alert("Invalid note id");
+      return;
+    }
+    try {
+      const data = await getNoteById(Number(id));
+      setTitle(data.title);
+      setBody(data.body);
+    } catch {
+      alert("Failed to load note");
+    }
   }
 
   useEffect(() => {
@@ -32,17 +35,15 @@ export default function EditNotePage() {
       alert("Title and content are required");
       return;
     }
-    const response = await fetch(
-      `https://notesappts-production.up.railway.app/notes/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title, body: body }),
-      },
-    );
-    if (response.ok) {
-      navigate(`/notes/${id}`);
-    } else {
+    if (id === undefined) {
+      alert("Invalid note id");
+      return;
+    }
+    const nodeId = Number(id);
+    try {
+      await updateNote(nodeId, { title, body });
+      navigate(`/notes/${nodeId}`);
+    } catch {
       alert("Failed to edit note");
     }
   }

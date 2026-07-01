@@ -1,31 +1,21 @@
 import { useEffect, useState } from "react";
 import NoteCard from "./NoteCard.js";
+import { Note } from "../types/note.js";
+import { getNotes } from "../api/notes.js";
 
 type NotesListProps = {
   search: string;
 };
 
-type Note = {
-  id: number;
-  title: string;
-  body: string;
-  createdAt: string;
-};
-
 export default function NotesList({ search }: NotesListProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   async function fetchNotes() {
-    let responses;
-    search === ""
-      ? (responses = await fetch(
-          "https://notesappts-production.up.railway.app/notes",
-        ))
-      : (responses = await fetch(
-          `https://notesappts-production.up.railway.app/notes?search=${search}`,
-        ));
-
-    const data = await responses.json();
-    setNotes(data);
+    try {
+      const data = await getNotes(search);
+      setNotes(data);
+    } catch {
+      alert("Failed to load notes");
+    }
   }
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createNote } from "../api/notes";
 
 export default function CreateNotePage() {
   const [title, setTitle] = useState("");
@@ -15,17 +16,10 @@ export default function CreateNotePage() {
       alert("Title and content are required");
       return;
     }
-    const response = await fetch(
-      "https://notesappts-production.up.railway.app/notes",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title, body: body }),
-      },
-    );
-    if (response.ok) {
+    try {
+      await createNote({ title, body });
       navigate("/");
-    } else {
+    } catch {
       alert("Failed to create note");
     }
   }

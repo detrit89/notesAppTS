@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Trash2, Pencil } from "lucide-react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { deleteNote, getNoteById } from "../api/notes";
 
 type Note = {
   title: string;
@@ -14,14 +15,16 @@ export default function NotePage() {
   const navigate = useNavigate();
 
   async function fetchNote() {
-    const response = await fetch(
-      `https://notesappts-production.up.railway.app/notes/${id}`,
-      {
-        method: "GET",
-      },
-    );
-    const data = await response.json();
-    setNote(data);
+    if (id === undefined) {
+      alert("Invalid note id");
+      return;
+    }
+    try {
+      const data = await getNoteById(Number(id));
+      setNote(data);
+    } catch {
+      alert("Failed to load note");
+    }
   }
 
   useEffect(() => {
@@ -33,15 +36,14 @@ export default function NotePage() {
   }
 
   async function handleDelete() {
-    const response = await fetch(
-      `https://notesappts-production.up.railway.app/notes/${id}`,
-      {
-        method: "DELETE",
-      },
-    );
-    if (response.ok) {
+    if (id === undefined) {
+      alert("Invalid note id");
+      return;
+    }
+    try {
+      await deleteNote(Number(id));
       navigate("/");
-    } else {
+    } catch {
       alert("Failed to delete note");
     }
   }

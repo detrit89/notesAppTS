@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Trash2, Pencil } from "lucide-react";
+import { deleteNote } from "../api/notes";
 
 type NoteCardProps = {
   title: string;
@@ -18,16 +19,12 @@ export default function NoteCard({
 }: NoteCardProps) {
   const navigate = useNavigate();
   async function handleDelete() {
-    const response = await fetch(
-      `https://notesappts-production.up.railway.app/notes/${id}`,
-      {
-        method: "DELETE",
-      },
-    );
-    if (response.ok) {
+    try {
+      await deleteNote(id);
+
       onDelete(id);
       navigate("/");
-    } else {
+    } catch {
       alert("Failed to delete note");
     }
   }
