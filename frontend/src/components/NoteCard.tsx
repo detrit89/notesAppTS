@@ -21,7 +21,6 @@ export default function NoteCard({
   async function handleDelete() {
     try {
       await deleteNote(id);
-
       onDelete(id);
       navigate("/");
     } catch {
